@@ -5,7 +5,7 @@ export interface RentingStoryPost {
     contentTypeId: "rentingStory",
     fields: {
       storyDetail: EntryFieldTypes.Text
-      response: EntryFieldTypes.Text,
+      ourResponse: EntryFieldTypes.RichText,
       town: EntryFieldTypes.Text,
       coordinates: EntryFieldTypes.Location,
       emoji: EntryFieldTypes.Symbol,

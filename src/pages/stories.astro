@@ -17,13 +17,13 @@ const entries = await contentfulClient.getEntries<RentingStoryPost>({
 });
 
 const posts = entries.items.map((item) => {
-  const { storyDetail, response, town, coordinates, emoji } = item.fields;
+  const { storyDetail, town, coordinates, emoji, ourResponse } = item.fields;
   return {
     storyDetail,
-    response,
     town,
 	coordinates,
-	emoji
+	emoji,
+	ourResponse: documentToHtmlString(ourResponse),
   };
 });
 
@@ -66,7 +66,7 @@ const posts = entries.items.map((item) => {
 		{posts.map((item) => (
 			<p class="introduction">
 			  <article set:html={item.storyDetail}></article>
-			  <article set:html={item.response}></article>
+			  <article set:html={item.ourResponse}></article>
 			  <article set:html={item.town}></article>
 			  <article set:html={item.coordinates.lat}></article>
 			  <article set:html={item.coordinates.lon}></article>
