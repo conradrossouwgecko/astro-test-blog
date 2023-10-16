@@ -6,6 +6,7 @@ import Header from "../components/Header.astro";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { contentfulClient, managementClient } from "../lib/contentful";
 import type { RentingStoryPost } from "../lib/contentful";
+import Form from "../components/Form.jsx";
 
 const spaceId = "qqvtmhveqo7r";
 const contentType = "rentingStory";
@@ -31,52 +32,6 @@ const posts = entries.items.map((item) => {
 });
 
 const errors = { storyDetail: "", town: "", emoji: "" };
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    console.log("🚀 ~ data:", data);
-    const storyDetail = data.get("storyDetail");
-    const town = data.get("town");
-    const emoji = data.get("emoji");
-
-    if (typeof storyDetail !== "string" || storyDetail.length < 1) {
-      errors.storyDetail += "Please enter a Story. ";
-    }
-    if (typeof town !== "string" || town.length < 1) {
-      errors.town += "Town is not valid. ";
-    }
-    if (typeof emoji !== "string" || emoji.length < 1) {
-      errors.emoji += "Please add an emoji";
-    }
-    const entryData = {
-      fields: {
-        // Define your entry fields here
-        storyDetail: {
-          "en-US": storyDetail,
-        },
-        town: {
-          "en-US": town,
-        },
-        emoji: {
-          "en-US": emoji,
-        },
-      },
-    };
-	 // Do something with the data
-    managementClient
-      .getSpace("qqvtmhveqo7r")
-      .then((space) => space.getEnvironment("master"))
-      .then((environment) => environment.createEntry(contentType, entryData))
-      .then((contentType) => console.log(contentType))
-      .catch(console.error);
-
-   
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
 ---
 
 <Layout title="Welcome to Astro.">
@@ -111,24 +66,7 @@ if (Astro.request.method === "POST") {
     </svg>
     <Header />
     <h1>Welcome to <span class="text-gradient"> {pageTitle}</span></h1>
-    <form method="POST">
-      <label>
-        Story Detail:
-        <input type="text" name="storyDetail" />
-      </label>
-      {errors.storyDetail && <p>{errors.storyDetail}</p>}
-      <label>
-        Town:
-        <input type="text" name="town" />
-      </label>
-      {errors.town && <p>{errors.town}</p>}
-      <label>
-        Emoji:
-        <input type="text" name="emoji" />
-      </label>
-      {errors.emoji && <p>{errors.emoji}</p>}
-      <button>Submit</button>
-    </form>
+	<Form client:load />
 
     {
       posts.map((item) => (
