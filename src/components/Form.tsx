@@ -24,7 +24,7 @@ const Form = () => {
 
 
   return (
-    <form onSubmit={submit}>
+    <form method="POST" onSubmit={submit}>
     <label htmlFor="story">
       Story Detail - See me:
       <input
