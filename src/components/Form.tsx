@@ -11,51 +11,22 @@ const Form = () => {
 
   const errors = { storyDetail: "", town: "", emoji: "" };
 
-  // async function submit(e: FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.target as HTMLFormElement);
-  //   const response = await fetch("/api/submitStory", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  //   const data = await response.json();
-  //   if (data.message) {
-  //     setResponseMessage(data.message);
-  //   }
-  // }
-
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const entryData = {
-      fields: {
-        // Define your entry fields here
-        storyDetail: {
-          "en-US": story,
-        },
-        town: {
-          "en-US": town,
-        },
-        emoji: {
-          "en-US": emoji,
-        },
-      },
-    };
-    // Do something with the data, then return a success response
-  
-    managementClient
-    .getSpace("qqvtmhveqo7r")
-    .then((space) => space.getEnvironment("master"))
-    .then((environment) => environment.createEntry(contentType, entryData))
-    .then((contentType) => console.log(contentType))
-    .catch(console.error);
-    
+    const response = await fetch("/api/submitStory", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (data.message) {
+      setResponseMessage(data.message);
+    }
   }
-
 
   return (
     <form onSubmit={submit}>
-    <label>
+    <label htmlFor="story">
       Story Detail - React:
       <input
         type="text"
@@ -66,7 +37,7 @@ const Form = () => {
       />
      </label>
      {errors.storyDetail && <p>{errors.storyDetail}</p>}
-     <label>
+     <label htmlFor="town">
       Town:
       <input
         type="text"
@@ -77,7 +48,7 @@ const Form = () => {
       />
      </label>
      {errors.town && <p>{errors.town}</p>}
-     <label>
+     <label htmlFor="emoji">
      Emoji:
       <input
         type="text"
@@ -88,7 +59,7 @@ const Form = () => {
       />
      </label>
      {errors.emoji && <p>{errors.emoji}</p>}
-      <button type="submit">Add</button>
+      <button>Send</button>
       {responseMessage && <p>{responseMessage}</p>}
     </form>
   );
