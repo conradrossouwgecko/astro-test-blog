@@ -1,24 +1,54 @@
 import { type FormEvent, useState } from "react";
+import { managementClient } from "../lib/contentful";
 
 const Form = () => {
   const [story, setStory] = useState("");
   const [town, setTown] = useState("");
   const [emoji, setEmoji] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const contentType = "rentingStory";
 
   const errors = { storyDetail: "", town: "", emoji: "" };
+
+  // async function submit(e: FormEvent<HTMLFormElement>) {
+  //   e.preventDefault();
+  //   const formData = new FormData(e.target as HTMLFormElement);
+  //   const response = await fetch("/api/submitStory", {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+  //   const data = await response.json();
+  //   if (data.message) {
+  //     setResponseMessage(data.message);
+  //   }
+  // }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const response = await fetch("/api/submitStory", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await response.json();
-    if (data.message) {
-      setResponseMessage(data.message);
-    }
+    const entryData = {
+      fields: {
+        // Define your entry fields here
+        storyDetail: {
+          "en-US": story,
+        },
+        town: {
+          "en-US": town,
+        },
+        emoji: {
+          "en-US": emoji,
+        },
+      },
+    };
+    // Do something with the data, then return a success response
+  
+    managementClient
+    .getSpace("qqvtmhveqo7r")
+    .then((space) => space.getEnvironment("master"))
+    .then((environment) => environment.createEntry(contentType, entryData))
+    .then((contentType) => console.log(contentType))
+    .catch(console.error);
+    
   }
 
 
