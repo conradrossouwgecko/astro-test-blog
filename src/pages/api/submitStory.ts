@@ -35,7 +35,7 @@ export const POST: APIRoute = async ({ request }) => {
   };
   // Do something with the data, then return a success response
 
-  managementClient
+  await managementClient
   .getSpace("qqvtmhveqo7r")
   .then((space) => space.getEnvironment("master"))
   .then((environment) => environment.createEntry(contentType, entryData))
