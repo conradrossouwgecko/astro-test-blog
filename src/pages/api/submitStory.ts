@@ -4,6 +4,7 @@ import { managementClient } from "../../lib/contentful";
 export const POST: APIRoute = async ({ request }) => {
   const contentType = "rentingStory";
   const data = await request.formData();
+  console.log("🚀 ~ data", data)
   const story = data.get("story");
   const town = data.get("town");
   const emoji = data.get("emoji");
