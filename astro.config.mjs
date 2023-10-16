@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  adapter: node(),
+  adapter: netlify({
+    edgeMiddleware: true,
+  }),
   integrations: [react()]
 });
