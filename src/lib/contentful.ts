@@ -1,4 +1,5 @@
 import contentful from "contentful";
+import contentfulManagement from "contentful-management";
 import type { EntryFieldTypes } from "contentful";
 
 export interface RentingStoryPost {
@@ -20,3 +21,7 @@ export const contentfulClient = contentful.createClient({
   host: import.meta.env.DEV ? "preview.contentful.com" : "cdn.contentful.com",
 });
 
+export const managementClient = contentfulManagement.createClient({
+  // This is the access token for this space. Normally you get the token in the Contentful web app
+  accessToken: import.meta.env.CONTENTFUL_CMA
+})
