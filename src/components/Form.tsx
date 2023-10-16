@@ -1,5 +1,4 @@
 import { type FormEvent, useState } from "react";
-import { managementClient } from "../lib/contentful";
 
 const Form = () => {
   const [story, setStory] = useState("");
@@ -59,7 +58,7 @@ const Form = () => {
       />
      </label>
      {errors.emoji && <p>{errors.emoji}</p>}
-      <button>Send</button>
+      <button type='submit'>Send it</button>
       {responseMessage && <p>{responseMessage}</p>}
     </form>
   );
