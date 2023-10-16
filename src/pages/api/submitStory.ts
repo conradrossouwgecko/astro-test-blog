@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { managementClient } from "../../lib/contentful";
-export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const contentType = "rentingStory";
@@ -18,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 }
     );
   }
-  
+
 
   const entryData = {
     fields: {

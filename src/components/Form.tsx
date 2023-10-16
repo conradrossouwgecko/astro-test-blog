@@ -1,6 +1,5 @@
 import { type FormEvent, useState } from "react";
 import { managementClient } from "../lib/contentful";
-export const prerender = false;
 
 const Form = () => {
   const [story, setStory] = useState("");
