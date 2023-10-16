@@ -63,7 +63,7 @@ const errors = { storyDetail: "", town: "", emoji: "" };
     </svg>
     <Header />
     <h1>Welcome to <span class="text-gradient"> {pageTitle}</span></h1>
-	<Form client:load />
+	<Form client:only="react" />
 
     {
       posts.map((item) => (
