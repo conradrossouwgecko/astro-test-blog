@@ -62,6 +62,7 @@ if (Astro.request.method === "POST") {
         },
       },
     };
+	 // Do something with the data
     managementClient
       .getSpace("qqvtmhveqo7r")
       .then((space) => space.getEnvironment("master"))
@@ -69,7 +70,7 @@ if (Astro.request.method === "POST") {
       .then((contentType) => console.log(contentType))
       .catch(console.error);
 
-    // Do something with the data
+   
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
