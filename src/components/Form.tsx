@@ -24,10 +24,11 @@ const Form = () => {
     }
   }
 
+
   return (
     <form onSubmit={submit}>
     <label htmlFor="story">
-      Story Detail - React:
+      Story Detail - See me:
       <input
         type="text"
         id="story"
