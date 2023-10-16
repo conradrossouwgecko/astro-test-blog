@@ -3,17 +3,32 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
-const pageTitle = "About Me Mama";
-const identity = {
-  firstName: "Sarah",
-  country: "Canada",
-  occupation: "Technical Writer",
-  hobbies: ["photography", "birdwatching", "baseball"],
-};
-const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { contentfulClient } from "../lib/contentful";
+import type { RentingStoryPost } from "../lib/contentful";
+
+const pageTitle = "Stories";
 const skillColor = "navy";
 const fontWeight = "bold";
 const textCase = "uppercase";
+
+const entries = await contentfulClient.getEntries<RentingStoryPost>({
+  content_type: "rentingStory",
+});
+
+const posts = entries.items.map((item) => {
+  const { storyDetail, response, town, coordinates, emoji } = item.fields;
+  return {
+    storyDetail,
+    response,
+    town,
+	coordinates,
+	emoji
+  };
+});
+
+
+
 ---
 
 <Layout title="Welcome to Astro.">
@@ -47,47 +62,17 @@ const textCase = "uppercase";
 			</defs>
 		</svg>
 		<Header />
-		<h1>Welcome to <span class="text-gradient">The {pageTitle}</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		
-            <p>Here are a few facts about me:</p>
-            <ul>
-              <li>My name is {identity.firstName}.</li>
-              <li>I live in {identity.country} and I work as a {identity.occupation}.</li>
-              {identity.hobbies.length >= 2 &&
-                <li>Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
-              }
-            </ul>
-            <p>My skills are:</p>
-            <ul>
-              {skills.map((skill) => <li style="skill">{skill}</li>)}
-            </ul>
-        
-        </p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
+		<h1>Welcome to <span class="text-gradient"> {pageTitle}</span></h1>
+		{posts.map((item) => (
+			<p class="introduction">
+			  <article set:html={item.storyDetail}></article>
+			  <article set:html={item.response}></article>
+			  <article set:html={item.town}></article>
+			  <article set:html={item.coordinates.lat}></article>
+			  <article set:html={item.coordinates.lon}></article>
+			  <article set:html={item.emoji}></article>
+			</section>
+		  ))}
 	</main>
 </Layout>
 
